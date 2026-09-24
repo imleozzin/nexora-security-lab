@@ -1,0 +1,11 @@
+# Nada sensível deve entrar no repo
+*.pem
+*.key
+senhas.txt
+credenciais*
+*.vmdk
+*.vmx
+*.ova
+*.iso
+.DS_Store
+Thumbs.db
