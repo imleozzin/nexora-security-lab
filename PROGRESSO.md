@@ -6,7 +6,7 @@
 
 | Fase | Descrição | Status | Data |
 |---|---|---|---|
-| 1 | Construir (rede + AD) | 🟡 Em andamento (~60%) | — |
+| 1 | Construir (rede + AD) | 🟡 Em andamento (~90%) | — |
 | 2 | Proteger (hardening + GPOs) | ⬜ | — |
 | 3 | Monitorar (Wazuh + Sysmon) | ⬜ | — |
 | 4 | Atacar e detectar | ⬜ | — |
@@ -22,17 +22,18 @@
 - [x] Configurar IPs das interfaces
 - [x] Instalar Windows Server (SRV-DC01)
 - [x] Rede do DC OK (após corrigir VMnets — TS-01 — e DNS — TS-02)
-- [x] **Promover a Domain Controller (`nexora.local`) — verificado** (TS-03)
+- [x] Promover a Domain Controller (`nexora.local`) — verificado (TS-03)
 - [x] DNS Forwarder para o pfSense
 - [x] Renomear interfaces do pfSense (USUARIOS/SEGURANCA/ATAQUE)
-- [x] Regras de firewall na zona USUARIOS (Any + Single host DC + blocks)
+- [x] Regras de firewall na zona USUARIOS
 - [x] DHCP Relay no pfSense (USUARIOS → 192.168.10.10)
 - [x] DHCP no SRV-DC01 (escopo USUARIOS, opções 003/006/015, Active)
 - [x] Corrigir WAN do pfSense (Static→DHCP — TS-04)
-- [ ] WS-RH01 pega IP via DHCP e ingressa no domínio
-- [ ] Estrutura de OUs (script criar-estrutura-ad.ps1)
-- [ ] Usuários e grupos
-- [ ] Ubuntu SRV-FILE01
+- [x] WS-RH01 pega IP via DHCP e ingressa no domínio
+- [x] Estrutura de OUs (script criar-estrutura-ad.ps1)
+- [x] Usuários e grupos
+- [x] Mover WS-RH01 para OU=Workstations
+- [ ] Ubuntu SRV-FILE01 (servidor de arquivos) ← ÚLTIMO item da Fase 1
 - [ ] Confirmar/corrigir acesso HTTPS ao pfSense
 
 ### Fase 2 — Proteger
@@ -69,9 +70,10 @@
 | 3 | DNS resolve domínio | `Resolve-DnsName srv-dc01.nexora.local` | ✅ |
 | 4 | Internet via pfSense | `Resolve-DnsName google.com` | ✅ (após TS-04) |
 | 5 | DHCP configurado | `Get-DhcpServerv4Scope` (Active) | ✅ |
-| 6 | Cliente pega IP do DC | `ipconfig /all` no WS-RH01 | ⬜ |
-| 7 | Cliente no domínio | `whoami` = nexora\... | ⬜ |
-| 8 | Kali NÃO alcança nada | `ping 192.168.10.10` do Kali (deve falhar) | ⬜ |
+| 6 | Cliente pega IP do DC | `ipconfig /all` no WS-RH01 | ✅ |
+| 7 | Cliente no domínio | `whoami` = nexora\... | ✅ |
+| 8 | OUs e usuários | print ADUC + `Get-ADUser` | ⬜ (tirar print) |
+| 9 | Kali NÃO alcança nada | `ping 192.168.10.10` do Kali (deve falhar) | ⬜ |
 
 ---
 
@@ -80,7 +82,6 @@
 | VM | Snapshot | Quando |
 |---|---|---|
 | FW01 | `FW01-01-interfaces-configuradas` | ✅ |
-| SRV-DC01 | `DC01-00b-rede-ok` | ✅ |
 | SRV-DC01 | `DC01-01-dc-promovido` | ✅ |
 | SRV-DC01 | `DC01-02-dhcp-ok` | pendente |
 | WS-RH01 | `WS-RH01-01-no-dominio` | pendente |
@@ -92,12 +93,12 @@
 | Área | Nível atual | Meta |
 |---|---|---|
 | Redes | 2→3 | 3 – Júnior empregável |
-| Active Directory | 2 | 3 |
+| Active Directory | 2→3 | 3 |
 | Troubleshooting | 2→3 | 3 |
 | Linux | 1 | 3 |
 | SOC / SIEM | 0 | 3 |
-| Documentação | 2 | 3 |
-| GitHub | 1 | 3 |
+| Documentação | 3 | 3 |
+| GitHub | 2 | 3 |
 
 ---
 
@@ -106,4 +107,4 @@
 - [ ] Escrever "Decisões de Arquitetura" (ADR-02..05) com as próprias palavras
 - [ ] Responder: cenário A ou B no TS-02? Por quê?
 - [ ] Desafio da GPO: qual criou, onde vinculou, como provou
-- [ ] Publicar no GitHub (git push do PC) + renomear repo para `nexora-security-lab`
+- [ ] Adicionar prints em evidencias/ (transforma documentação em prova)
