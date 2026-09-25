@@ -4,8 +4,6 @@
 
 ![Diagrama da rede](diagramas/diagrama-rede.png)
 
-> Arquivo editável: `diagramas/diagrama-rede.drawio` (exporte o PNG sempre que alterar).
-
 ---
 
 ## Zonas e endereçamento
@@ -34,7 +32,6 @@ O firewall **pfSense (FW01)** fica no centro, com uma interface por zona. Cada z
 | 6 | SRV-SIEM | Wazuh (OVA) | 4 | 8 GB | 80 GB | 192.168.30.50 | Segurança |
 | 7 | KALI01 | Kali Linux | 2 | 3 GB | 60 GB | 192.168.99.10 | Ataque |
 
-Host: Ryzen 7 5700X3D · 32 GB RAM — comporta o ambiente quase todo ligado.
 
 ---
 
